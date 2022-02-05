@@ -2,12 +2,14 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-# An example controller showing a sample home page
-GET     /usuarios                   controllers.HomeController.getAllUsers()
-GET     /usuario/:userId          controllers.HomeController.getOneUser(request: Request, userId)
+POST        /recipes                controllers.RecipeManagerController.createRecipe()
+POST        /ingredients            controllers.RecipeManagerController.createIngredient()
 
-POST    /usuarios                   controllers.HomeController.createUser(request: Request)
+GET         /recipes                controllers.RecipeManagerController.getAllRecipes()
+GET         /ingredients            controllers.RecipeManagerController.getAllIngredients()
+GET         /recipes/:name           controllers.RecipeManagerController.getRecipeByName(name)
 
-# borrar x3
 
-# actualizar x3
+# GET /recetas -> /recetas?sabor=salado&pepito=grillo
+# GET /receta/:id
+# GET /ingredientes/:id

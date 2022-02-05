@@ -15,3 +15,9 @@ To build and run the project:
 4. After the message `Server started, ...` displays, enter the following URL in a browser: <http://localhost:9000>
 
 5. To exit the console: `exit`
+
+
+### To test routes
+```sh 
+curl --verbose "http://localhost:9000/..."
+```
