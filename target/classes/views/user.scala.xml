@@ -1,0 +1,7 @@
+@(user: User)
+<?xml version="1.0" encoding="UTF-8"?>
+
+<user>
+    <name>@user.getName()</name>
+    @_mi_parcial(user.getAge())
+</user>

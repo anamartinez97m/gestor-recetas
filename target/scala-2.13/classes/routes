@@ -1,0 +1,13 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# An example controller showing a sample home page
+GET     /usuarios                   controllers.HomeController.getAllUsers()
+GET     /usuario/:userId            controllers.HomeController.getUser(userId)
+
+POST    /usuarios                   controllers.HomeController.createUser(request: Request)
+
+# borrar x3
+
+# actualizar x3

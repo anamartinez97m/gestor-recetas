@@ -1,0 +1,7 @@
+[0m[[0m[31merror[0m] [0m[0m/home/anamm/Documents/UPSA-REST/play-samples-play-java-hello-world-tutorial/app/views/_mi_parcial.scala.xml:4:11: not found: value age[0m
+[0m[[0m[31merror[0m] [0m[0m    <age>@age</age>[0m
+[0m[[0m[31merror[0m] [0m[0m          ^[0m
+[0m[[0m[31merror[0m] [0m[0m/home/anamm/Documents/UPSA-REST/play-samples-play-java-hello-world-tutorial/app/models/User.java:9:27: not found: type Model[0m
+[0m[[0m[31merror[0m] [0m[0mpublic class User extends Model { //io.ebean.Model[0m
+[0m[[0m[31merror[0m] [0m[0m                          ^[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m

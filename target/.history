@@ -1,0 +1,17 @@
+clean
+compile
+run
+exit
+compile
+recompile
+compile
+exit
+compile
+run
+exit
+run
+compile
+exit
+compile
+makePom
+exit

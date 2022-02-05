@@ -1,0 +1,5 @@
+@(edad: Int)
+
+@if(edad > 0) {
+    <age>@age</age>
+}
