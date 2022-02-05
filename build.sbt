@@ -1,5 +1,5 @@
-name := """play-java-hello-world-tutorial"""
-organization := "com.example"
+name := """recipes-manager"""
+organization := "com.recipes-manager"
 
 version := "1.0-SNAPSHOT"
 
@@ -13,5 +13,3 @@ enablePlugins(PlayEbean)
 libraryDependencies += evolutions
 libraryDependencies += jdbc
 // si falla algo, 09-modelo
-
-libraryDependencies += "com.h2database" % "h2" % "1.4.200"

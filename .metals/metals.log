@@ -579,3 +579,7 @@ Exception in thread "pool-3-thread-35" java.util.NoSuchElementException: next on
 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
 	at java.base/java.lang.Thread.run(Thread.java:830)
 2022.02.05 18:31:52 WARN  no build target for: /home/anamm/Documents/UPSA-REST/gestor-recetas/app/controllers/RecipeManagerController.java
+2022.02.05 18:39:19 WARN  no build target for: /home/anamm/Documents/UPSA-REST/gestor-recetas/build.sbt
+2022.02.05 18:40:17 WARN  no build target for: /home/anamm/Documents/UPSA-REST/gestor-recetas/build.sbt
+2022.02.05 18:40:28 WARN  no build target for: /home/anamm/Documents/UPSA-REST/gestor-recetas/build.sbt
+2022.02.05 18:47:34 WARN  no build target for: /home/anamm/Documents/UPSA-REST/gestor-recetas/build.sbt
