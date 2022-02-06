@@ -1,4 +1,8 @@
+.vscode
+.metals
+.bloop
+target
+*.log
 *.cache
 *.class
-target
-.metals
+project/target/
