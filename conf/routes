@@ -2,12 +2,14 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+GET         /recipes                controllers.RecipeManagerController.getAllRecipes(request: Request)
+GET         /recipes/:name          controllers.RecipeManagerController.getRecipeByName(name)
 POST        /recipes                controllers.RecipeManagerController.createRecipe()
+
+
+GET         /ingredients            controllers.IngredientController.getAllIngredients()
 POST        /ingredients            controllers.IngredientController.createIngredient()
 
-GET         /recipes                controllers.RecipeManagerController.getAllRecipes()
-GET         /ingredients            controllers.IngredientController.getAllIngredients()
-GET         /recipes/:name           controllers.RecipeManagerController.getRecipeByName(name)
 
 
 # GET /recetas -> /recetas?sabor=salado&pepito=grillo
