@@ -90,5 +90,5 @@ public class Rating {
 
     public static List<Rating> findByValue(Float value) {
         return finder.query().where().eq("value", value).findList();
-    }    
+    }
 }
