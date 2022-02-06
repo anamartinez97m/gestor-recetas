@@ -63,6 +63,15 @@ public class Ingredient extends BaseModel {
     }
 
     /**
+     * toString
+     */
+    @Override
+    public String toString() {
+        return "Ingredient [name=" + name + ", quantity=" + quantity + "]";
+    }
+    
+
+    /**
      * Class finders
      */
     public static Ingredient findUserbyId(Long id) {
