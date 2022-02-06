@@ -3,10 +3,10 @@
 # ~~~~
 
 POST        /recipes                controllers.RecipeManagerController.createRecipe()
-POST        /ingredients            controllers.RecipeManagerController.createIngredient()
+POST        /ingredients            controllers.IngredientController.createIngredient()
 
 GET         /recipes                controllers.RecipeManagerController.getAllRecipes()
-GET         /ingredients            controllers.RecipeManagerController.getAllIngredients()
+GET         /ingredients            controllers.IngredientController.getAllIngredients()
 GET         /recipes/:name           controllers.RecipeManagerController.getRecipeByName(name)
 
 

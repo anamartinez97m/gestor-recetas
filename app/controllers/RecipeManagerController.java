@@ -13,14 +13,6 @@ public class RecipeManagerController extends Controller {
         return ok("Created recipe!\n");
     }
 
-    public Result createIngredient() {
-        return ok("Created ingredient!\n");
-    }
-
-    public Result getAllIngredients() {
-        return ok("Return of all the ingredients\n");
-    }
-
     public Result getRecipeByName(String name) {
         return ok("Return of the recipe: " + name + "\n");
     }
