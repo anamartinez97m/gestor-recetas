@@ -6,7 +6,7 @@ import play.mvc.Controller;
 public class IngredientController extends Controller {
 
     public Result createIngredient() {
-        return ok("Created ingredient!\n");
+        return ok("Ingredient created!\n");
     }
 
     public Result getAllIngredients() {
