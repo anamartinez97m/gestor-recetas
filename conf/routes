@@ -4,14 +4,17 @@
 
 GET         /recipes                controllers.RecipeManagerController.getAllRecipes(request: Request)
 GET         /recipes/:name          controllers.RecipeManagerController.getRecipeByName(name)
+# GET         /recipes/:ingredients          controllers.RecipeManagerController.getRecipesByIngredients(ingredients)
+# GET         /recipes/:difficulty          controllers.RecipeManagerController.getRecipesByDifficulty(difficulty)
+# GET         /recipes/:rating          controllers.RecipeManagerController.getRecipesByRating(rating)
 POST        /recipes                controllers.RecipeManagerController.createRecipe()
 
 
 GET         /ingredients            controllers.IngredientController.getAllIngredients()
 POST        /ingredients            controllers.IngredientController.createIngredient()
 
+GET         /rating            controllers.RatingController.getAllRatings()
+POST        /rating            controllers.RatingController.addRating()
 
-
-# GET /recetas -> /recetas?sabor=salado&pepito=grillo
-# GET /receta/:id
-# GET /ingredientes/:id
+GET         /difficulty            controllers.DifficultyController.getAllDifficulties()
+POST        /difficulty            controllers.DifficultyController.addDifficulty()
