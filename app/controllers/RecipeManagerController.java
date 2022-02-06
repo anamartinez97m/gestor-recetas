@@ -1,11 +1,13 @@
 package controllers;
 
-import play.mvc.Result;
 import play.mvc.Controller;
+import play.mvc.Http;
+import play.mvc.Result;
+import play.mvc.Results;
 
 public class RecipeManagerController extends Controller {
   
-    public Result getAllRecipes() {
+    public Result getAllRecipes(Http.Request request) {
         return ok("Return of all the recipes\n");
     }
 
