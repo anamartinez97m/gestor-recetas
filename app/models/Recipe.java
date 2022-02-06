@@ -11,6 +11,7 @@ import javax.persistence.OneToOne;
 
 import io.ebean.Finder;
 
+// TODO: falla la compilacion, dice que javax no tiene persistence dentro
 @Entity
 public class Recipe extends BaseModel {
     /**
