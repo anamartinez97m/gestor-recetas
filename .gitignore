@@ -6,4 +6,3 @@ target
 *.cache
 *.class
 project/target/
-.metals/metals.lock.db
