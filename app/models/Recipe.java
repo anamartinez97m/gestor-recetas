@@ -3,15 +3,10 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 import io.ebean.Finder;
 
-// TODO: falla la compilacion, dice que javax no tiene persistence dentro
 @Entity
 public class Recipe extends BaseModel {
     /**
@@ -103,16 +98,16 @@ public class Recipe extends BaseModel {
     public static List<Recipe> findByIngredients(List<Ingredient> ingredients) {
         return finder.query().where().in("ingredients", ingredients).findList();
     }
-}
 
-// TODO:
-/**
- * Book libro = new Book();
- * Page pagina = new Page();
- * libro.addPagina(pagina)
- * libro.save();
- * public void addPagina(Pagina p) {
- *  this.paginas.add(p);
- *  p.libro = this;
- * }
- */
+    /**
+     * TO DO:
+     * Book libro = new Book();
+     * Page pagina = new Page();
+     * libro.addPagina(pagina)
+     * libro.save();
+     * public void addPagina(Pagina p) {
+     *  this.paginas.add(p);
+     *  p.libro = this;
+     * }
+     */
+}

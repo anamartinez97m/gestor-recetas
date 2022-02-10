@@ -3,12 +3,14 @@ package models;
 import java.sql.Timestamp;
 
 import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
 
+@MappedSuperclass
 public class BaseModel extends Model {
     /**
      * Class attributes

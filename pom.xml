@@ -16,14 +16,14 @@
     </build>
     
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.recipes-manager</groupId>
-    <artifactId>recipes-manager</artifactId>
+    <groupId>com.recipes</groupId>
+    <artifactId>recipes-manager_1.0</artifactId>
     <packaging>jar</packaging>
     <description>recipes-manager</description>
     <version>1.0-SNAPSHOT</version>
     <name>recipes-manager</name>
     <organization>
-        <name>com.recipes-manager</name>
+        <name>com.recipes</name>
     </organization>
     <dependencies>
         <dependency>
