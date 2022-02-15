@@ -2,11 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET         /recipes                controllers.RecipeManagerController.getAllRecipes(request: Request)
-GET         /recipes/:name          controllers.RecipeManagerController.getRecipeByName(name)
-# GET         /recipes/:ingredients          controllers.RecipeManagerController.getRecipesByIngredients(ingredients)
-# GET         /recipes/:difficulty          controllers.RecipeManagerController.getRecipesByDifficulty(difficulty)
-# GET         /recipes/:rating          controllers.RecipeManagerController.getRecipesByRating(rating)
+GET         /recipes                controllers.RecipeManagerController.getRecipesByFilter(request: Request)
+GET         /recipes/:id          controllers.RecipeManagerController.getRecipeById(id: Long)
 POST        /recipes                controllers.RecipeManagerController.createRecipe()
 
 
