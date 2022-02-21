@@ -15,3 +15,7 @@ libraryDependencies ++= Seq(
 )
 
 enablePlugins(PlayEbean)
+libraryDependencies += evolutions
+libraryDependencies += jdbc
+
+libraryDependencies += "mysql" % "mysql-connector-java" % "8.0.18"

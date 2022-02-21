@@ -3,18 +3,23 @@ package models;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
 import io.ebean.Finder;
+import play.data.validation.Constraints.Required;
 
+@Entity
 public class Difficulty extends BaseModel {
     /**
      * Class attributes
      */
     private static final Finder<Long, Difficulty> finder = new Finder<Long, Difficulty>(Difficulty.class);
 
+    @Required(message = "difficulty-name-required")
     private String name;
 
+    @Required(message = "difficulty-value-required")
     private Integer value;
 
     @OneToMany(cascade=CascadeType.ALL, mappedBy="levelDifficulty")

@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import io.ebean.Finder;
+import play.data.validation.Constraints.Required;
 
 @Entity
 public class Recipe extends BaseModel {
@@ -14,8 +15,10 @@ public class Recipe extends BaseModel {
      */
     private static final Finder<Long, Recipe> finder = new Finder<Long, Recipe>(Recipe.class);
 
+    @Required(message="recipe-name-required")
     private String name;
 
+    @Required(message="recipe-description-required")
     private String stepsDescription;
 
     @OneToOne(cascade=CascadeType.ALL)
@@ -24,8 +27,9 @@ public class Recipe extends BaseModel {
     @ManyToOne
     private Difficulty levelDifficulty;
 
+    @Required(message="recipe-ingredients-required")
     @ManyToMany(cascade=CascadeType.ALL)
-    private List<Ingredient> ingredients = new ArrayList<Ingredient>();
+    private List<IngredientQuantity> ingredients = new ArrayList<IngredientQuantity>();
 
 
     /**
@@ -55,11 +59,11 @@ public class Recipe extends BaseModel {
         this.levelDifficulty = levelDifficulty;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<IngredientQuantity> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<IngredientQuantity> ingredients) {
         this.ingredients = ingredients;
     }
 

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
 import io.ebean.Finder;
+import play.data.validation.Constraints.Required;
 
 @Entity
 public class Ingredient extends BaseModel {
@@ -15,9 +16,8 @@ public class Ingredient extends BaseModel {
      */
     private static final Finder<Long, Ingredient> finder = new Finder<Long, Ingredient>(Ingredient.class);
 
+    @Required(message="ingredient-name-required")
     private String name;
-
-    private Float quantity;
 
     @ManyToMany(mappedBy="ingredients")
     private List<Recipe> recipes = new ArrayList<Recipe>();
@@ -31,14 +31,6 @@ public class Ingredient extends BaseModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Float getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Float quantity) {
-        this.quantity = quantity;
     }
 
     /**
@@ -67,7 +59,7 @@ public class Ingredient extends BaseModel {
      */
     @Override
     public String toString() {
-        return "Ingredient [name=" + name + ", quantity=" + quantity + "]";
+        return "Ingredient [name=" + name + "]";
     }
     
 

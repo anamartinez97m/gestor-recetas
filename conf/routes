@@ -8,7 +8,7 @@ POST        /recipes                controllers.RecipeManagerController.createRe
 
 
 GET         /ingredients            controllers.IngredientController.getAllIngredients()
-POST        /ingredients            controllers.IngredientController.createIngredient()
+POST        /ingredients            controllers.IngredientController.createIngredient(request: Request)
 
 GET         /rating            controllers.RatingController.getAllRatings()
 POST        /rating            controllers.RatingController.addRating()

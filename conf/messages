@@ -1,1 +1,7 @@
-error-menor-de-edad = No se aceptan menores de edad
+recipe-name-required = El nombre de la receta es obligatorio.
+recipe-description-required = La descripción de la receta es obligatoria.
+recipe-ingredients-required = Los ingredientes de la receta son obligatorios.
+ingredient-name-required = El nombre del ingrediente es obligatorio.
+rating-value-required = El valor de la puntuación es obligatorio.
+difficulty-name-required = El nombre de la dificultad es obligatorio.
+difficulty-value-required = El valor de la dificultad es obligatorio.

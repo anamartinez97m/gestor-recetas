@@ -1,1 +1,7 @@
-error-menor-de-edad = Less than 18 years old are not allowed
+recipe-name-required = The recipe's name is required.
+recipe-description-required = The recipe's description is required.
+recipe-ingredients-required = The recipe's ingredients are required.
+ingredient-name-required = The ingredient's name is required.
+rating-value-required = The rating's value is required.
+difficulty-name-required = The difficulty's name is required.
+difficulty-value-required = The difficulty's value is required.

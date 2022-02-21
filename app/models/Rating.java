@@ -2,11 +2,16 @@ package models;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import io.ebean.Finder;
+import play.data.validation.Constraints.Max;
+import play.data.validation.Constraints.Min;
+import play.data.validation.Constraints.Required;
 
+@Entity
 public class Rating {
     /**
      * Class attributes
@@ -16,6 +21,9 @@ public class Rating {
     @Id
     private Long id;
 
+    @Required(message="rating-value-required")
+    @Min(0)
+    @Max(5)
     private Float value;
 
     private String comment;
