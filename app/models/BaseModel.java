@@ -6,6 +6,8 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import io.ebean.annotation.WhenModified;
@@ -19,12 +21,15 @@ public class BaseModel extends Model {
     private Long id;
     
     @WhenCreated
+    @JsonIgnore
     private Timestamp whenCreated;
 
     @WhenModified
+    @JsonIgnore
     private Timestamp whenModified;
 
     @Version
+    @JsonIgnore
     private Long version;
 
 

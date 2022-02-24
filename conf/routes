@@ -4,14 +4,14 @@
 
 GET         /recipes                controllers.RecipeManagerController.getRecipesByFilter(request: Request)
 GET         /recipes/:id          controllers.RecipeManagerController.getRecipeById(id: Long)
-POST        /recipes                controllers.RecipeManagerController.createRecipe()
+POST        /recipes                controllers.RecipeManagerController.createRecipe(request: Request)
 
 
-GET         /ingredients            controllers.IngredientController.getAllIngredients()
+GET         /ingredients            controllers.IngredientController.getAllIngredients(request: Request)
 POST        /ingredients            controllers.IngredientController.createIngredient(request: Request)
 
-GET         /rating            controllers.RatingController.getAllRatings()
-POST        /rating            controllers.RatingController.addRating()
+GET         /ratings            controllers.RatingController.getAllRatings(request: Request)
+POST        /ratings            controllers.RatingController.addRating(request: Request)
 
-GET         /difficulty            controllers.DifficultyController.getAllDifficulties()
-POST        /difficulty            controllers.DifficultyController.addDifficulty()
+GET         /difficulties            controllers.DifficultyController.getAllDifficulties(request: Request)
+POST        /difficulties            controllers.DifficultyController.addDifficulty(request: Request)

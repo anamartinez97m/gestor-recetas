@@ -12,7 +12,7 @@ import play.data.validation.Constraints.Min;
 import play.data.validation.Constraints.Required;
 
 @Entity
-public class Rating {
+public class Rating extends BaseModel {
     /**
      * Class attributes
      */
@@ -99,4 +99,8 @@ public class Rating {
     public static List<Rating> findByValue(Float value) {
         return finder.query().where().eq("value", value).findList();
     }
+
+    public static List<Rating> findAll() {
+        return finder.query().findList();
+    } 
 }

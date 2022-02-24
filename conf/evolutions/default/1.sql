@@ -32,6 +32,9 @@ create table rating (
   id                            bigint auto_increment not null,
   value                         float,
   comment                       varchar(255),
+  when_created                  datetime(6) not null,
+  when_modified                 datetime(6) not null,
+  version                       bigint not null,
   constraint pk_rating primary key (id)
 );
 

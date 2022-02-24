@@ -84,4 +84,8 @@ public class Difficulty extends BaseModel {
     public static List<Difficulty> findByValue(Integer value) {
         return finder.query().where().eq("value", value).findList();
     }
+
+    public static List<Difficulty> findAll() {
+        return finder.query().findList();
+    } 
 }

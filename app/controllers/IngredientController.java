@@ -3,9 +3,12 @@ package controllers;
 import play.mvc.Result;
 import play.mvc.Results;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.Ingredient;
 import play.data.Form;
@@ -33,13 +36,26 @@ public class IngredientController extends Controller {
 
         JsonNode node = Json.toJson(ingredient);
 
-        return ok   (node)
+        return created(node)
                 // .withHeader("mi-cabecera", "mi-valor")
                 .as("application/json");
     }
 
-    public Result getAllIngredients() {
-        return ok("Return of all the ingredients\n");
+    public Result getAllIngredients(Http.Request request) {
+        List<Ingredient> ingredients = Ingredient.findAll();
+
+        if(request.accepts("application/xml")) {
+            
+            // Content content = views.xml.user.render(userFound);
+            return Results.ok();
+
+        } else if(request.accepts("application/json")) {
+            return ok(Json.toJson(ingredients));
+        } else {
+            ObjectNode result = Json.newObject();
+            result.put("error", "Unssupported format");
+            return Results.status(406, result);
+        }
     }
   
 }

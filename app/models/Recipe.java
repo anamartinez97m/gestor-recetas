@@ -103,6 +103,10 @@ public class Recipe extends BaseModel {
         return finder.query().where().in("ingredients", ingredients).findList();
     }
 
+    public static List<Recipe> findAll() {
+        return finder.query().findList();
+    } 
+
     /**
      * TO DO:
      * Book libro = new Book();
