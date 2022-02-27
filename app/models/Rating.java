@@ -28,6 +28,9 @@ public class Rating extends BaseModel {
 
     private String comment;
 
+    /*
+    Se está dando por hecho que una receta sólo va a poder tener un rating hecho por una persona
+    */
     @OneToOne(mappedBy="rating")
     private Recipe recipe;
 

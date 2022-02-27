@@ -24,7 +24,11 @@ create table ingredient (
 
 create table ingredient_quantity (
   id                            bigint auto_increment not null,
+  ingredient_id                 bigint,
   quantity                      float,
+  when_created                  datetime(6) not null,
+  when_modified                 datetime(6) not null,
+  version                       bigint not null,
   constraint pk_ingredient_quantity primary key (id)
 );
 
@@ -43,7 +47,7 @@ create table recipe (
   name                          varchar(255),
   steps_description             varchar(255),
   rating_id                     bigint,
-  level_difficulty_id           bigint,
+  difficulty_value              integer,
   when_created                  datetime(6) not null,
   when_modified                 datetime(6) not null,
   version                       bigint not null,
@@ -57,10 +61,10 @@ create table recipe_ingredient_quantity (
   constraint pk_recipe_ingredient_quantity primary key (recipe_id,ingredient_quantity_id)
 );
 
-alter table recipe add constraint fk_recipe_rating_id foreign key (rating_id) references rating (id) on delete restrict on update restrict;
+create index ix_ingredient_quantity_ingredient_id on ingredient_quantity (ingredient_id);
+alter table ingredient_quantity add constraint fk_ingredient_quantity_ingredient_id foreign key (ingredient_id) references ingredient (id) on delete restrict on update restrict;
 
-create index ix_recipe_level_difficulty_id on recipe (level_difficulty_id);
-alter table recipe add constraint fk_recipe_level_difficulty_id foreign key (level_difficulty_id) references difficulty (id) on delete restrict on update restrict;
+alter table recipe add constraint fk_recipe_rating_id foreign key (rating_id) references rating (id) on delete restrict on update restrict;
 
 create index ix_recipe_ingredient_quantity_recipe on recipe_ingredient_quantity (recipe_id);
 alter table recipe_ingredient_quantity add constraint fk_recipe_ingredient_quantity_recipe foreign key (recipe_id) references recipe (id) on delete restrict on update restrict;
@@ -71,10 +75,10 @@ alter table recipe_ingredient_quantity add constraint fk_recipe_ingredient_quant
 
 # --- !Downs
 
-alter table recipe drop foreign key fk_recipe_rating_id;
+alter table ingredient_quantity drop foreign key fk_ingredient_quantity_ingredient_id;
+drop index ix_ingredient_quantity_ingredient_id on ingredient_quantity;
 
-alter table recipe drop foreign key fk_recipe_level_difficulty_id;
-drop index ix_recipe_level_difficulty_id on recipe;
+alter table recipe drop foreign key fk_recipe_rating_id;
 
 alter table recipe_ingredient_quantity drop foreign key fk_recipe_ingredient_quantity_recipe;
 drop index ix_recipe_ingredient_quantity_recipe on recipe_ingredient_quantity;

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.Difficulty;
 import models.Ingredient;
+import models.IngredientQuantity;
 import models.Rating;
 import models.Recipe;
 import play.data.Form;
@@ -34,12 +35,33 @@ public class RecipeManagerController extends Controller {
             return Results.notAcceptable(errors);
         }
 
-        Recipe recipe = recipeForm.get();
+        // List<IngredientQuantity> ingredients = recipeForm.get().getIngredientsQuantityList();
         
+        JsonNode jsonNode = request.body().asJson();
+
+        System.out.println(jsonNode.get("ingredientsQuantityList"));
+        
+        for(int i = 0; i < jsonNode.get("ingredientsQuantityList").size(); i++) {
+            IngredientQuantity iq = new IngredientQuantity();
+            JsonNode iqNode = jsonNode.get("ingredientsQuantityList").get(i);
+            iq.setIngredient(new Ingredient().setId(iqNode.get("ingredientId")));
+
+            iq.save();
+        }
+        
+        System.out.println(recipeForm);
+        System.out.println(request.body().asJson());
+        Recipe recipe = recipeForm.get();
+
+        // recipe.setIngredientsQuantityList(ingredients);
+        
+        // for(IngredientQuantity iq : recipe.getIngredientsQuantityList()) {
+        //     System.out.println(iq.toString());
+        // }        
         recipe.save();
 
         JsonNode node = Json.toJson(recipe);
-
+        // System.out.println(recipeForm);
         return created(node)
                 .as("application/json");
     }

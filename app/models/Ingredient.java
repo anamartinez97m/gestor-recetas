@@ -1,10 +1,11 @@
 package models;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 
 import io.ebean.Finder;
 import play.data.validation.Constraints.Required;
@@ -19,8 +20,8 @@ public class Ingredient extends BaseModel {
     @Required(message="ingredient-name-required")
     private String name;
 
-    @ManyToMany(mappedBy="ingredients")
-    private List<Recipe> recipes = new ArrayList<Recipe>();
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="ingredient")
+    private List<IngredientQuantity> ingredientQuantityList;
 
     /**
      * Getters and Setters

@@ -22,9 +22,6 @@ public class Difficulty extends BaseModel {
     @Required(message = "difficulty-value-required")
     private Integer value;
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="levelDifficulty")
-    private List<Recipe> recipes;
-
 
     /**
      * Getters and Setters
@@ -43,14 +40,6 @@ public class Difficulty extends BaseModel {
 
     public void setValue(Integer value) {
         this.value = value;
-    }
-
-    public List<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
     }
 
     /**
@@ -81,8 +70,8 @@ public class Difficulty extends BaseModel {
         return finder.byId(id);
     }
 
-    public static List<Difficulty> findByValue(Integer value) {
-        return finder.query().where().eq("value", value).findList();
+    public static Difficulty findByValue(Integer value) {
+        return finder.query().where().eq("value", value).findOne();
     }
 
     public static List<Difficulty> findAll() {
