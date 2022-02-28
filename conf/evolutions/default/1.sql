@@ -25,7 +25,7 @@ create table ingredient (
 create table ingredient_quantity (
   id                            bigint auto_increment not null,
   ingredient_id                 bigint,
-  quantity                      float,
+  quantity                      float not null,
   when_created                  datetime(6) not null,
   when_modified                 datetime(6) not null,
   version                       bigint not null,

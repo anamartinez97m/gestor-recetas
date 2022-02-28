@@ -27,7 +27,7 @@ public class Recipe extends BaseModel {
     private Integer difficultyValue;
 
     @Required(message="recipe-ingredients-required")
-    @ManyToMany(cascade=CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<IngredientQuantity> ingredientsQuantityList = new ArrayList<IngredientQuantity>();
 
 

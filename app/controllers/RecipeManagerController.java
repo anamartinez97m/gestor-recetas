@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import errors.*;
 import models.Difficulty;
 import models.Ingredient;
 import models.IngredientQuantity;
@@ -35,33 +37,39 @@ public class RecipeManagerController extends Controller {
             return Results.notAcceptable(errors);
         }
 
-        // List<IngredientQuantity> ingredients = recipeForm.get().getIngredientsQuantityList();
+        List<IngredientQuantity> ingredientsQuantityList = new ArrayList<IngredientQuantity>();
         
         JsonNode jsonNode = request.body().asJson();
-
-        System.out.println(jsonNode.get("ingredientsQuantityList"));
         
         for(int i = 0; i < jsonNode.get("ingredientsQuantityList").size(); i++) {
             IngredientQuantity iq = new IngredientQuantity();
             JsonNode iqNode = jsonNode.get("ingredientsQuantityList").get(i);
-            iq.setIngredient(new Ingredient().setId(iqNode.get("ingredientId")));
 
+            Long ingredientId = iqNode.get("ingredientId").asLong();
+
+            Ingredient foundIngredient = Ingredient.findById(ingredientId);
+
+            if(foundIngredient == null) {
+                // TODO: Traducción
+                return notFound(Json.toJson(new NotFound("Ingredient with id " + ingredientId + " could not be found")));
+            }
+
+            iq.setIngredient(foundIngredient);
+            iq.setQuantity(iqNode.get("quantity").floatValue());
+
+            ingredientsQuantityList.add(iq);
             iq.save();
         }
         
-        System.out.println(recipeForm);
-        System.out.println(request.body().asJson());
         Recipe recipe = recipeForm.get();
 
-        // recipe.setIngredientsQuantityList(ingredients);
+        recipe.setIngredientsQuantityList(ingredientsQuantityList);
         
-        // for(IngredientQuantity iq : recipe.getIngredientsQuantityList()) {
-        //     System.out.println(iq.toString());
-        // }        
+        // TODO: Comprobar rating y difficulty
         recipe.save();
 
         JsonNode node = Json.toJson(recipe);
-        // System.out.println(recipeForm);
+
         return created(node)
                 .as("application/json");
     }

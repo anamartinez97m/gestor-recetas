@@ -67,7 +67,7 @@ public class Ingredient extends BaseModel {
     /**
      * Class finders
      */
-    public static Ingredient findUserbyId(Long id) {
+    public static Ingredient findById(Long id) {
         return finder.byId(id);
     }
 
