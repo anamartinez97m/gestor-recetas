@@ -24,7 +24,8 @@ public class Recipe extends BaseModel {
     @OneToOne(cascade=CascadeType.ALL)
     private Rating rating;
 
-    private Integer difficultyValue;
+    @ManyToOne
+    private Difficulty difficulty;
 
     @Required(message="recipe-ingredients-required")
     @ManyToMany(fetch = FetchType.LAZY)
@@ -50,12 +51,12 @@ public class Recipe extends BaseModel {
         this.stepsDescription = stepsDescription;
     }
 
-    public Difficulty getLevelDifficulty() {
-        return Difficulty.findByValue(this.difficultyValue);
+    public Difficulty getDifficulty() {
+        return this.difficulty;
     }
 
-    public void setLevelDifficulty(Integer difficultyValue) {
-        this.difficultyValue = difficultyValue;
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public List<IngredientQuantity> getIngredientsQuantityList() {
@@ -64,6 +65,14 @@ public class Recipe extends BaseModel {
 
     public void setIngredientsQuantityList(List<IngredientQuantity> ingredientsQuantityList) {
         this.ingredientsQuantityList = ingredientsQuantityList;
+    }
+
+    public Rating getRating() {
+        return rating;
+    }
+
+    public void setRating(Rating rating) {
+        this.rating = rating;
     }
 
     /**
@@ -90,7 +99,7 @@ public class Recipe extends BaseModel {
     /**
      * Class finders
      */
-    public static Recipe findUserbyId(Long id) {
+    public static Recipe findById(Long id) {
         return finder.byId(id);
     }
 

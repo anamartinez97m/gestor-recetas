@@ -7,7 +7,9 @@ import javax.inject.Inject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
+import errors.NotFound;
 import models.Rating;
+import models.Recipe;
 import play.mvc.Controller;
 import play.mvc.Result;
 import play.mvc.Results;
@@ -30,10 +32,24 @@ public class RatingController extends Controller {
         }
 
         Rating rating = ratingForm.get();
-        
-        rating.save();
+        JsonNode jsonNode = request.body().asJson();
+        Long recipeId = jsonNode.get("recipeId").asLong();
 
-        JsonNode node = Json.toJson(rating);
+        Recipe recipe = Recipe.findById(recipeId);
+
+        // Devolver error en JSON o XML según te manden en el header Accept
+        if(recipe == null) {
+            // TODO: Traducción
+            return notFound(Json.toJson(new NotFound("Recipe with id " + recipeId + " could not be found")));
+        }
+
+        rating.save();
+        
+        recipe.setRating(rating);
+        recipe.save();
+
+        ObjectNode node = (ObjectNode) Json.toJson(rating);
+        node.put("recipeId", recipeId);
 
         return created(node)
                 .as("application/json");

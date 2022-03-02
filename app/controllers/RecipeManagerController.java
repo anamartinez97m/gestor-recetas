@@ -60,12 +60,21 @@ public class RecipeManagerController extends Controller {
             ingredientsQuantityList.add(iq);
             iq.save();
         }
+
+        Integer difficultyValue = jsonNode.get("difficultyValue").asInt();
+
+        Difficulty difficulty = Difficulty.findByValue(difficultyValue);
+
+        if(difficulty == null) {
+            // TODO: Traducción
+            return notFound(Json.toJson(new NotFound("Difficulty with value " + difficultyValue + " could not be found")));
+        }
         
         Recipe recipe = recipeForm.get();
 
         recipe.setIngredientsQuantityList(ingredientsQuantityList);
-        
-        // TODO: Comprobar rating y difficulty
+        recipe.setDifficulty(difficulty);
+
         recipe.save();
 
         JsonNode node = Json.toJson(recipe);
@@ -95,6 +104,7 @@ public class RecipeManagerController extends Controller {
         String[] difficulty = queryParamsMap.get("difficulty");
         String[] rating = queryParamsMap.get("rating");
         String[] ingredients = queryParamsMap.get("ingredients");
+        List<Recipe> recipes;
 
         if(difficulty != null) {
             return ok("Return of the recipes filtered by difficulty " + Arrays.toString(difficulty) + "\n");
@@ -108,7 +118,17 @@ public class RecipeManagerController extends Controller {
             return ok("Return of the recipes filtered by ingredients " + Arrays.toString(ingredients) + "\n");
         }
 
-        return ok("Return of all the recipes\n");
+        recipes = Recipe.findAll();
+
+        if(request.accepts("application/xml")) {
+            return Results.ok(views.xml.recipe.render(recipes));
+        } else if(request.accepts("application/json")) {
+            return ok(Json.toJson(recipes));
+        } else {
+            ObjectNode result = Json.newObject();
+            result.put("error", "Unssupported format");
+            return Results.status(406, result);
+        }
     }
 
 }

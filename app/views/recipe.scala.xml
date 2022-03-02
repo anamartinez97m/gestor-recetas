@@ -1,0 +1,13 @@
+@(recipes: List[Recipe])
+<?xml version="1.0" encoding="UTF-8"?>
+
+<recipes>
+    @for(recipe <- recipes) {
+        <recipe>
+            <id>@recipe.getId()</id>
+            <name>@recipe.getName()</name>
+            <stepsDescription>@recipe.getStepsDescription()</stepsDescription>
+            <difficultyValue>@recipe.getDifficulty().getValue()</difficultyValue>
+        </recipe>
+    }
+</recipes>

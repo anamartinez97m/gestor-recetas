@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import io.ebean.Finder;
 import play.data.validation.Constraints.Max;
 import play.data.validation.Constraints.Min;
@@ -31,6 +33,7 @@ public class Rating extends BaseModel {
     /*
     Se está dando por hecho que una receta sólo va a poder tener un rating hecho por una persona
     */
+    @JsonIgnore
     @OneToOne(mappedBy="rating")
     private Recipe recipe;
 
