@@ -150,4 +150,14 @@ public class RecipeManagerController extends Controller {
         }
     }
 
+    public Result deleteRecipe(Long id) {
+        Recipe recipe = Recipe.findById(id);
+        if(recipe != null) {
+            recipe.delete();
+            return Results.status(204);
+        } else {
+            return notFound();
+        }
+    }
+
 }
