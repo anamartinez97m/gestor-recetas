@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import models.Ingredient;
+import models.IngredientQuantity;
+import models.Recipe;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -53,6 +55,29 @@ public class IngredientController extends Controller {
             ObjectNode result = Json.newObject();
             result.put("error", "Unssupported format");
             return Results.status(406, result);
+        }
+    }
+
+    public Result deleteIngredient(Long id) {
+        Ingredient ingredient = Ingredient.findById(id);
+    
+        if(ingredient != null) {
+            List<IngredientQuantity> iqList = IngredientQuantity.findByIngredient(ingredient);
+            List<Recipe> recipes = Recipe.findByIngredientQuantityList(iqList);            
+
+            for(IngredientQuantity iq: iqList) {
+                if(recipes != null) {
+                    for(Recipe r: recipes) {
+                        r.getIngredientsQuantityList().remove(iq);
+                        r.save();
+                    }
+                    iq.delete();
+                }
+            }
+            ingredient.delete();
+            return Results.status(204);
+        } else {
+            return notFound();
         }
     }
   

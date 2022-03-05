@@ -102,8 +102,8 @@ public class Rating extends BaseModel {
         return finder.byId(id);
     }
 
-    public static List<Rating> findByValue(Float value) {
-        return finder.query().where().eq("value", value).findList();
+    public static Rating findByValue(Float value) {
+        return finder.query().where().eq("value", value).findOne();
     }
 
     public static List<Rating> findAll() {

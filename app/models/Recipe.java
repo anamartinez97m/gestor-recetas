@@ -114,4 +114,12 @@ public class Recipe extends BaseModel {
     public static List<Recipe> findAll() {
         return finder.query().findList();
     }
+
+    public static Recipe findByRating(Rating rating) {
+        return finder.query().where().eq("rating", rating).findOne();
+    }
+
+    public static List<Recipe> findByIngredientQuantityList(List<IngredientQuantity> iqList) {
+        return finder.query().where().in("ingredientQuantityList", iqList).findList();
+    }
 }

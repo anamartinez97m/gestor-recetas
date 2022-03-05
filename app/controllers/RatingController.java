@@ -79,4 +79,18 @@ public class RatingController extends Controller {
             return Results.status(406, result);
         }
     }
+
+    public Result deleteRating(Float value) {
+        Rating rating = Rating.findByValue(value);
+    
+        if(rating != null) {
+            Recipe recipe = Recipe.findByRating(rating);
+            recipe.setRating(null);
+            recipe.save();
+            rating.delete();
+            return Results.status(204);
+        } else {
+            return notFound();
+        }
+    }
 }

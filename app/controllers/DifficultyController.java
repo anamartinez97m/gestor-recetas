@@ -53,7 +53,7 @@ public class DifficultyController extends Controller {
         }
     }
 
-    public Result deleteDifficultyById(Long id) {
+    public Result deleteDifficulty(Long id) {
         Difficulty difficulty = Difficulty.findById(id);
 
         if(difficulty != null) {
