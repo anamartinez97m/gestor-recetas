@@ -1,0 +1,11 @@
+@(ingredientsQuantity: List[IngredientQuantity])
+
+<ingredientsQuantity>
+    @for(iq <- ingredientsQuantity) {
+        <ingredientQuantity>
+            <id>@iq.getId()</id>
+            @ingredient(iq.getIngredient())
+            <quantity>@iq.getQuantity()</quantity>
+        </ingredientQuantity>
+    }
+</ingredientsQuantity>

@@ -1,0 +1,7 @@
+@(difficulty: Difficulty)
+
+<difficulty>
+    <id>@difficulty.getId()</id>
+    <name>@difficulty.getName()</name>
+    <value>@difficulty.getValue()</value>
+</difficulty>

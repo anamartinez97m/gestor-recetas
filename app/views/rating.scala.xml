@@ -1,0 +1,7 @@
+@(rating: Rating)
+
+<rating>
+    <id>@rating.getId()</id>
+    <value>@rating.getValue()</value>
+    <comment>@rating.getComment()</comment>
+</rating>

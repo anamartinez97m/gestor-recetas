@@ -1,0 +1,8 @@
+@(ratings: List[Rating])
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ratings>
+    @for(r <- ratings) {
+        @rating(r)
+    }
+</ratings>
