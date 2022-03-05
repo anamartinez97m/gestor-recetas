@@ -62,12 +62,14 @@ public class IngredientController extends Controller {
     public Result deleteIngredient(Long id) {
         Ingredient ingredient = Ingredient.findById(id);
     
+        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(ingredient != null) {
             List<IngredientQuantity> iqList = IngredientQuantity.findByIngredient(ingredient);
             List<Recipe> recipes = new ArrayList<Recipe>();
 
             for(IngredientQuantity iq: iqList) {
                 recipes = Recipe.findByIngredientQuantity(iq);            
+                // TODO Devolver error en JSON o XML según te manden en el header Accept
                 if(recipes != null) {
                     for(Recipe r: recipes) {
                         r.getIngredientsQuantityList().remove(iq);

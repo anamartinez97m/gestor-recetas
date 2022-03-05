@@ -83,6 +83,7 @@ public class RatingController extends Controller {
     public Result deleteRating(Float value) {
         Rating rating = Rating.findByValue(value);
     
+        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(rating != null) {
             Recipe recipe = Recipe.findByRating(rating);
             recipe.setRating(null);

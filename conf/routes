@@ -2,8 +2,7 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET         /recipes            controllers.RecipeManagerController.getRecipesByFilter(request: Request)
-GET         /recipes/:id        controllers.RecipeManagerController.getRecipeById(id: Long)
+GET         /recipes            controllers.RecipeManagerController.getRecipes(request: Request)
 POST        /recipes            controllers.RecipeManagerController.createRecipe(request: Request)
 DELETE      /recipes/:id        controllers.RecipeManagerController.deleteRecipe(id: Long)
 

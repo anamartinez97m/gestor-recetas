@@ -102,42 +102,27 @@ public class RecipeManagerController extends Controller {
                 .as("application/json");
     }
 
-    public Result getRecipeById(Long id) {
-        return ok("Return of the recipe: " + id + "\n");
-    }
-
-    public Result getRecipeByIngredients(List<Ingredient> ingredients) {
-        return ok("Return of the recipes with the ingredients: " + ingredients.toString() + "\n");
-    }
-
-    public Result getRecipesByDifficulty(Difficulty difficulty) {
-        return ok("Return of the recipes with difficulty: " + difficulty.getValue() + "\n");
-    }
-
-    public Result getRecipesByRating(Rating rating) {
-        return ok("Return of the recipes with rating: " + rating.getValue() + "\n");
-    }
-
-    public Result getRecipesByFilter(Http.Request request) {
+    public Result getRecipes(Http.Request request) {
         Map<String, String[]> queryParamsMap = request.queryString();
+        String[] id = queryParamsMap.get("id");
         String[] difficulty = queryParamsMap.get("difficulty");
         String[] rating = queryParamsMap.get("rating");
         String[] ingredients = queryParamsMap.get("ingredients");
-        List<Recipe> recipes;
+        List<Recipe> recipes = new ArrayList<Recipe>();
 
-        if(difficulty != null) {
+        if(id != null) {
+            for(int i = 0; i < id.length; i++) {
+                recipes.add(Recipe.findById(Long.parseLong(id[i])));
+            }
+        } else if(difficulty != null) {
             return ok("Return of the recipes filtered by difficulty " + Arrays.toString(difficulty) + "\n");
-        }
-        
-        if(rating != null) {
+        } else if(rating != null) {
             return ok("Return of the recipes filtered by rating " + Arrays.toString(rating) + "\n");
-        }
-
-        if(ingredients != null) {
+        } else if(ingredients != null) {
             return ok("Return of the recipes filtered by ingredients " + Arrays.toString(ingredients) + "\n");
+        } else {
+            recipes = Recipe.findAll();
         }
-
-        recipes = Recipe.findAll();
 
         if(request.accepts("application/xml")) {
             return Results.ok(views.xml.recipes.render(recipes));
@@ -152,6 +137,7 @@ public class RecipeManagerController extends Controller {
 
     public Result deleteRecipe(Long id) {
         Recipe recipe = Recipe.findById(id);
+        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(recipe != null) {
             recipe.delete();
             return Results.status(204);
@@ -160,4 +146,5 @@ public class RecipeManagerController extends Controller {
         }
     }
 
+    // TODO añadir filtros y actualizar
 }
