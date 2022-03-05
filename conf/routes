@@ -2,16 +2,17 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET         /recipes                controllers.RecipeManagerController.getRecipesByFilter(request: Request)
-GET         /recipes/:id          controllers.RecipeManagerController.getRecipeById(id: Long)
-POST        /recipes                controllers.RecipeManagerController.createRecipe(request: Request)
+GET         /recipes            controllers.RecipeManagerController.getRecipesByFilter(request: Request)
+GET         /recipes/:id        controllers.RecipeManagerController.getRecipeById(id: Long)
+POST        /recipes            controllers.RecipeManagerController.createRecipe(request: Request)
 
 
-GET         /ingredients            controllers.IngredientController.getAllIngredients(request: Request)
-POST        /ingredients            controllers.IngredientController.createIngredient(request: Request)
+GET         /ingredients        controllers.IngredientController.getAllIngredients(request: Request)
+POST        /ingredients        controllers.IngredientController.createIngredient(request: Request)
 
 GET         /ratings            controllers.RatingController.getAllRatings(request: Request)
 POST        /ratings            controllers.RatingController.addRating(request: Request)
 
-GET         /difficulties            controllers.DifficultyController.getAllDifficulties(request: Request)
-POST        /difficulties            controllers.DifficultyController.addDifficulty(request: Request)
+GET         /difficulties       controllers.DifficultyController.getAllDifficulties(request: Request)
+POST        /difficulties       controllers.DifficultyController.addDifficulty(request: Request)
+DELETE      /difficulties/:id   controllers.DifficultyController.deleteDifficultyById(id: Long)
