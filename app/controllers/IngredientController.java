@@ -3,6 +3,7 @@ package controllers;
 import play.mvc.Result;
 import play.mvc.Results;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -63,9 +64,10 @@ public class IngredientController extends Controller {
     
         if(ingredient != null) {
             List<IngredientQuantity> iqList = IngredientQuantity.findByIngredient(ingredient);
-            List<Recipe> recipes = Recipe.findByIngredientQuantityList(iqList);            
+            List<Recipe> recipes = new ArrayList<Recipe>();
 
             for(IngredientQuantity iq: iqList) {
+                recipes = Recipe.findByIngredientQuantity(iq);            
                 if(recipes != null) {
                     for(Recipe r: recipes) {
                         r.getIngredientsQuantityList().remove(iq);

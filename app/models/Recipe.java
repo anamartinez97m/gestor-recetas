@@ -119,7 +119,7 @@ public class Recipe extends BaseModel {
         return finder.query().where().eq("rating", rating).findOne();
     }
 
-    public static List<Recipe> findByIngredientQuantityList(List<IngredientQuantity> iqList) {
-        return finder.query().where().in("ingredientQuantityList", iqList).findList();
+    public static List<Recipe> findByIngredientQuantity(IngredientQuantity iq) {
+        return finder.query().where().eq("id", iq.getId()).findList();
     }
 }
