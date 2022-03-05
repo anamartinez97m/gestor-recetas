@@ -1,7 +1,13 @@
 recipe-name-required = El nombre de la receta es obligatorio.
 recipe-description-required = La descripción de la receta es obligatoria.
 recipe-ingredients-required = Los ingredientes de la receta son obligatorios.
+recipe-error-not-found = La receta con id {0} no ha sido encontrada
+
 ingredient-name-required = El nombre del ingrediente es obligatorio.
+ingredient-error-not-found = El ingrediente con id {0} no ha sido encontrado
+
 rating-value-required = El valor de la puntuación es obligatorio.
+
 difficulty-name-required = El nombre de la dificultad es obligatorio.
 difficulty-value-required = El valor de la dificultad es obligatorio.
+difficulty-error-not-found = La dificultad con valor {0} no ha sido encontrada

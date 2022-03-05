@@ -1,7 +1,13 @@
 recipe-name-required = The recipe's name is required.
 recipe-description-required = The recipe's description is required.
 recipe-ingredients-required = The recipe's ingredients are required.
+recipe-error-not-found = Recipe with id {0} could not be found
+
 ingredient-name-required = The ingredient's name is required.
+ingredient-error-not-found = Ingredient with id {0} could not be found
+
 rating-value-required = The rating's value is required.
+
 difficulty-name-required = The difficulty's name is required.
 difficulty-value-required = The difficulty's value is required.
+difficulty-error-not-found = Difficulty with value {0} could not be found
