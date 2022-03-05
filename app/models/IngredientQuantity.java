@@ -49,7 +49,4 @@ public class IngredientQuantity extends BaseModel {
         return "IngredientQuantity [ingredient=" + ingredient + ", quantity=" + quantity + ", recipesList="
                 + recipesList + "]";
     }
-
-    
-    
 }

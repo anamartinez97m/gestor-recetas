@@ -98,7 +98,7 @@ public class Rating extends BaseModel {
     /**
      * Class finders
      */
-    public static Rating findUserbyId(Long id) {
+    public static Rating findById(Long id) {
         return finder.byId(id);
     }
 

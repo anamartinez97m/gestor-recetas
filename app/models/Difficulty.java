@@ -66,7 +66,7 @@ public class Difficulty extends BaseModel {
     /**
      * Class finders
      */
-    public static Difficulty findUserbyId(Long id) {
+    public static Difficulty findById(Long id) {
         return finder.byId(id);
     }
 

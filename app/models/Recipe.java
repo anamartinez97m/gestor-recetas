@@ -113,17 +113,5 @@ public class Recipe extends BaseModel {
 
     public static List<Recipe> findAll() {
         return finder.query().findList();
-    } 
-
-    /**
-     * TO DO:
-     * Book libro = new Book();
-     * Page pagina = new Page();
-     * libro.addPagina(pagina)
-     * libro.save();
-     * public void addPagina(Pagina p) {
-     *  this.paginas.add(p);
-     *  p.libro = this;
-     * }
-     */
+    }
 }
