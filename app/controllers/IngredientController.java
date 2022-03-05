@@ -25,6 +25,7 @@ public class IngredientController extends Controller {
     public Result createIngredient(Http.Request request) {
         Form<Ingredient> ingredientForm = formFactory.form(Ingredient.class).bindFromRequest(request);
 
+        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(ingredientForm.hasErrors()) {
             JsonNode errors = ingredientForm.errorsAsJson();
             return Results.notAcceptable(errors);
@@ -45,10 +46,7 @@ public class IngredientController extends Controller {
         List<Ingredient> ingredients = Ingredient.findAll();
 
         if(request.accepts("application/xml")) {
-            
-            // Content content = views.xml.user.render(userFound);
-            return Results.ok();
-
+            return Results.ok(views.xml.ingredients.render(ingredients));
         } else if(request.accepts("application/json")) {
             return ok(Json.toJson(ingredients));
         } else {

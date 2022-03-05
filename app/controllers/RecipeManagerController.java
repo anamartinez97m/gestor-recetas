@@ -18,6 +18,8 @@ import models.Rating;
 import models.Recipe;
 import play.data.Form;
 import play.data.FormFactory;
+import play.i18n.Messages;
+import play.i18n.MessagesApi;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Http;
@@ -28,10 +30,15 @@ public class RecipeManagerController extends Controller {
 
     @Inject
     private FormFactory formFactory;
+
+    @Inject
+    private MessagesApi messagesApi;
   
     public Result createRecipe(Http.Request request) {
+        Messages messages = messagesApi.preferred(request);
         Form<Recipe> recipeForm = formFactory.form(Recipe.class).bindFromRequest(request);
 
+        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(recipeForm.hasErrors()) {
             JsonNode errors = recipeForm.errorsAsJson();
             return Results.notAcceptable(errors);
@@ -49,9 +56,15 @@ public class RecipeManagerController extends Controller {
 
             Ingredient foundIngredient = Ingredient.findById(ingredientId);
 
+            // TODO Devolver error en JSON o XML según te manden en el header Accept
             if(foundIngredient == null) {
-                // TODO: Traducción
-                return notFound(Json.toJson(new NotFound("Ingredient with id " + ingredientId + " could not be found")));
+                return notFound(
+                    Json.toJson(
+                        new NotFound(
+                            messages.at("ingredient-error-not-found", ingredientId.toString())
+                        )
+                    )
+                );
             }
 
             iq.setIngredient(foundIngredient);
@@ -65,9 +78,15 @@ public class RecipeManagerController extends Controller {
 
         Difficulty difficulty = Difficulty.findByValue(difficultyValue);
 
+        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(difficulty == null) {
-            // TODO: Traducción
-            return notFound(Json.toJson(new NotFound("Difficulty with value " + difficultyValue + " could not be found")));
+            return notFound(
+                Json.toJson(
+                    new NotFound(
+                        messages.at("difficulty-error-not-found", difficultyValue.toString())
+                    )
+                )
+            );
         }
         
         Recipe recipe = recipeForm.get();
@@ -121,7 +140,7 @@ public class RecipeManagerController extends Controller {
         recipes = Recipe.findAll();
 
         if(request.accepts("application/xml")) {
-            return Results.ok(views.xml.recipe.render(recipes));
+            return Results.ok(views.xml.recipes.render(recipes));
         } else if(request.accepts("application/json")) {
             return ok(Json.toJson(recipes));
         } else {

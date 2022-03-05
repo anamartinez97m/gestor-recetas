@@ -24,6 +24,7 @@ public class DifficultyController extends Controller {
     public Result addDifficulty(Http.Request request) {
         Form<Difficulty> difficultyForm = formFactory.form(Difficulty.class).bindFromRequest(request);
 
+        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(difficultyForm.hasErrors()) {
             JsonNode errors = difficultyForm.errorsAsJson();
             return Results.notAcceptable(errors);
@@ -35,21 +36,31 @@ public class DifficultyController extends Controller {
 
         JsonNode node = Json.toJson(difficulty);
 
-        return created(node)
-                .as("application/json");
+        return created(node).as("application/json");
     }
 
     public Result getAllDifficulties(Http.Request request) {
         List<Difficulty> difficulties = Difficulty.findAll();
 
         if(request.accepts("application/xml")) {
-            return Results.ok();
+            return Results.ok(views.xml.difficulties.render(difficulties));
         } else if(request.accepts("application/json")) {
             return ok(Json.toJson(difficulties));
         } else {
             ObjectNode result = Json.newObject();
             result.put("error", "Unssupported format");
             return Results.status(406, result);
+        }
+    }
+
+    public Result deleteDifficultyById(Long id) {
+        Difficulty difficulty = Difficulty.findById(id);
+
+        if(difficulty != null) {
+            difficulty.delete();
+            return Results.status(204);
+        } else {
+            return notFound();
         }
     }
 }
