@@ -107,21 +107,51 @@ public class RecipeManagerController extends Controller {
         String[] id = queryParamsMap.get("id");
         String[] difficulty = queryParamsMap.get("difficulty");
         String[] rating = queryParamsMap.get("rating");
-        String[] ingredients = queryParamsMap.get("ingredients");
+        String[] ingredients = queryParamsMap.get("ingredient");
         List<Recipe> recipes = new ArrayList<Recipe>();
+        // List<Recipe> recipesResult = new ArrayList<Recipe>();
+
+        if(id == null && difficulty == null && rating == null && ingredients == null)
+            recipes = Recipe.findAll();
+
+        // TODO: juntar los filtros
 
         if(id != null) {
             for(int i = 0; i < id.length; i++) {
+                //recipes = recipes.stream().filter(recipe -> recipe.getId() == Long.parseLong(id[i])).collect(Collectors.toList());
+                
+                // for(Recipe r: recipes) {
+                //     if(r.getId() == Long.parseLong(id[i])) 
+                //         recipesResult.add(r);
+                // }
+
                 recipes.add(Recipe.findById(Long.parseLong(id[i])));
             }
-        } else if(difficulty != null) {
-            return ok("Return of the recipes filtered by difficulty " + Arrays.toString(difficulty) + "\n");
-        } else if(rating != null) {
-            return ok("Return of the recipes filtered by rating " + Arrays.toString(rating) + "\n");
-        } else if(ingredients != null) {
-            return ok("Return of the recipes filtered by ingredients " + Arrays.toString(ingredients) + "\n");
-        } else {
-            recipes = Recipe.findAll();
+        }
+
+        if(difficulty != null) {
+            for(int i = 0; i < difficulty.length; i++) {
+                recipes.addAll(Recipe.findByDifficultyValue(Integer.parseInt(difficulty[i])));
+            }
+        }
+
+        if(rating != null) {
+            for(int i = 0; i < rating.length; i++) {
+                recipes.add(Recipe.findByRatingValue(Float.parseFloat(rating[i])));
+            }
+        }
+
+        if(ingredients != null) {
+            for(int i = 0; i < ingredients.length; i++) {
+                List<IngredientQuantity> iqListFound = new ArrayList<IngredientQuantity>();
+                List<Ingredient> ingredientsFound = Ingredient.findByName(ingredients[i]);
+                
+                for(Ingredient ing: ingredientsFound)
+                    iqListFound.addAll(IngredientQuantity.findByIngredient(ing));
+
+                for(IngredientQuantity iq: iqListFound) 
+                    recipes.addAll(Recipe.findByIngredientQuantity(iq));
+            }
         }
 
         if(request.accepts("application/xml")) {
@@ -146,5 +176,5 @@ public class RecipeManagerController extends Controller {
         }
     }
 
-    // TODO añadir filtros y actualizar
+    // TODO añadir actualizar
 }

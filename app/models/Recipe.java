@@ -96,6 +96,12 @@ public class Recipe extends BaseModel {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Recipe [difficulty=" + difficulty + ", ingredientsQuantityList=" + ingredientsQuantityList + ", name="
+                + name + ", rating=" + rating + ", stepsDescription=" + stepsDescription + "]";
+    }
+
     /**
      * Class finders
      */
@@ -103,23 +109,27 @@ public class Recipe extends BaseModel {
         return finder.byId(id);
     }
 
-    public static List<Recipe> findByName(String name) {
-        return finder.query().where().eq("name", name).findList();
-    }
-
-    public static List<Recipe> findByIngredients(List<Ingredient> ingredients) {
-        return finder.query().where().in("ingredients", ingredients).findList();
-    }
-
     public static List<Recipe> findAll() {
         return finder.query().findList();
+    }
+
+    public static List<Recipe> findByName(String name) {
+        return finder.query().where().eq("name", name).findList();
     }
 
     public static Recipe findByRating(Rating rating) {
         return finder.query().where().eq("rating", rating).findOne();
     }
 
+    public static Recipe findByRatingValue(Float value) {
+        return finder.query().where().eq("rating.value", value).findOne();
+    }
+
     public static List<Recipe> findByIngredientQuantity(IngredientQuantity iq) {
-        return finder.query().where().eq("id", iq.getId()).findList();
+        return finder.query().where().eq("ingredientsQuantityList.id", iq.getId()).findList();
+    }
+
+    public static List<Recipe> findByDifficultyValue(Integer value) {
+        return finder.query().where().eq("difficulty.id", value).findList();
     }
 }
