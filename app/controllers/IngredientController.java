@@ -28,7 +28,6 @@ public class IngredientController extends Controller {
     public Result createIngredient(Http.Request request) {
         Form<Ingredient> ingredientForm = formFactory.form(Ingredient.class).bindFromRequest(request);
 
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(ingredientForm.hasErrors()) {
             JsonNode errors = ingredientForm.errorsAsJson();
             return Results.notAcceptable(errors);
@@ -40,9 +39,10 @@ public class IngredientController extends Controller {
 
         JsonNode node = Json.toJson(ingredient);
 
-        return created(node)
-                // .withHeader("mi-cabecera", "mi-valor")
-                .as("application/json");
+        if(request.accepts("application/xml"))
+            return created(views.xml.ingredient.render(ingredient));
+
+        return created(node).as("application/json");
     }
 
     public Result getAllIngredients(Http.Request request) {
@@ -59,19 +59,37 @@ public class IngredientController extends Controller {
         }
     }
 
-    // TODO UPDATE INGREDIENT
+    public Result updateIngredient(Http.Request request, Long id) {
+        JsonNode jsonNode = request.body().asJson();
+        JsonNode nameNode = jsonNode.get("name");
+
+        Ingredient ingredient = Ingredient.findById(id);
+        
+        if(ingredient != null) {
+            if(nameNode != null)
+                ingredient.setName(nameNode.toString());
+
+            ingredient.save();
+            JsonNode node = Json.toJson(ingredient);
+
+            if(request.accepts("application/xml"))
+                return Results.ok(views.xml.ingredient.render(ingredient));
+
+            return ok(node).as("application/json");
+        } else {
+            return notFound();
+        }
+    }
 
     public Result deleteIngredient(Long id) {
         Ingredient ingredient = Ingredient.findById(id);
     
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(ingredient != null) {
             List<IngredientQuantity> iqList = IngredientQuantity.findByIngredient(ingredient);
             List<Recipe> recipes = new ArrayList<Recipe>();
 
             for(IngredientQuantity iq: iqList) {
                 recipes = Recipe.findByIngredientQuantity(iq);            
-                // TODO Devolver error en JSON o XML según te manden en el header Accept
                 if(recipes != null) {
                     for(Recipe r: recipes) {
                         r.getIngredientsQuantityList().remove(iq);

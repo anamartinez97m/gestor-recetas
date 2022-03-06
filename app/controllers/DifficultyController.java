@@ -24,7 +24,6 @@ public class DifficultyController extends Controller {
     public Result addDifficulty(Http.Request request) {
         Form<Difficulty> difficultyForm = formFactory.form(Difficulty.class).bindFromRequest(request);
 
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(difficultyForm.hasErrors()) {
             JsonNode errors = difficultyForm.errorsAsJson();
             return Results.notAcceptable(errors);
@@ -35,6 +34,9 @@ public class DifficultyController extends Controller {
         difficulty.save();
 
         JsonNode node = Json.toJson(difficulty);
+
+        if(request.accepts("application/xml"))
+            return created(views.xml.difficulty.render(difficulty));
 
         return created(node).as("application/json");
     }

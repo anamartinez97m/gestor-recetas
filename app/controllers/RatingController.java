@@ -32,7 +32,6 @@ public class RatingController extends Controller {
         Messages messages = messagesApi.preferred(request);
         Form<Rating> ratingForm = formFactory.form(Rating.class).bindFromRequest(request);
         
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(ratingForm.hasErrors()) {
             JsonNode errors = ratingForm.errorsAsJson();
             return Results.notAcceptable(errors);
@@ -44,7 +43,6 @@ public class RatingController extends Controller {
 
         Recipe recipe = Recipe.findById(recipeId);
 
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(recipe == null) {
             return notFound(
                 Json.toJson(
@@ -62,7 +60,10 @@ public class RatingController extends Controller {
 
         ObjectNode node = (ObjectNode) Json.toJson(rating);
         node.put("recipeId", recipeId);
-
+        
+        if(request.accepts("application/xml"))
+            return created(views.xml.rating.render(rating));
+        
         return created(node).as("application/json");
     }
 
@@ -96,6 +97,9 @@ public class RatingController extends Controller {
 
             rating.save();               
             JsonNode node = Json.toJson(rating);
+            if(request.accepts("application/xml"))
+                return Results.ok(views.xml.rating.render(rating));
+            
             return ok(node).as("application/json");
         } else {
             return notFound();
@@ -105,7 +109,6 @@ public class RatingController extends Controller {
     public Result deleteRating(Float value) {
         Rating rating = Rating.findByValue(value);
     
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(rating != null) {
             Recipe recipe = Recipe.findByRating(rating);
             if(recipe != null) {

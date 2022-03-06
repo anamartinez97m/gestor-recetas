@@ -9,6 +9,7 @@ DELETE      /recipes/:id        controllers.RecipeManagerController.deleteRecipe
 
 GET         /ingredients        controllers.IngredientController.getAllIngredients(request: Request)
 POST        /ingredients        controllers.IngredientController.createIngredient(request: Request)
+PATCH       /ingredients/:id    controllers.IngredientController.updateIngredient(request: Request, id: Long)
 DELETE      /ingredients/:id    controllers.IngredientController.deleteIngredient(id: Long)
 
 GET         /ratings            controllers.RatingController.getAllRatings(request: Request)

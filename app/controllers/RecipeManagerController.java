@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import errors.*;
@@ -40,7 +42,6 @@ public class RecipeManagerController extends Controller {
         Messages messages = messagesApi.preferred(request);
         Form<Recipe> recipeForm = formFactory.form(Recipe.class).bindFromRequest(request);
 
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(recipeForm.hasErrors()) {
             JsonNode errors = recipeForm.errorsAsJson();
             return Results.notAcceptable(errors);
@@ -58,7 +59,6 @@ public class RecipeManagerController extends Controller {
 
             Ingredient foundIngredient = Ingredient.findById(ingredientId);
 
-            // TODO Devolver error en JSON o XML según te manden en el header Accept
             if(foundIngredient == null) {
                 return notFound(
                     Json.toJson(
@@ -80,7 +80,6 @@ public class RecipeManagerController extends Controller {
 
         Difficulty difficulty = Difficulty.findByValue(difficultyValue);
 
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(difficulty == null) {
             return notFound(
                 Json.toJson(
@@ -99,6 +98,9 @@ public class RecipeManagerController extends Controller {
         recipe.save();
 
         JsonNode node = Json.toJson(recipe);
+
+        if(request.accepts("application/xml"))
+            return created(views.xml.recipe.render(recipe));
 
         return created(node).as("application/json");
     }
@@ -121,9 +123,9 @@ public class RecipeManagerController extends Controller {
             for(int i = 0; i < id.length; i++) {
                 //recipes = recipes.stream().filter(recipe -> recipe.getId() == Long.parseLong(id[i])).collect(Collectors.toList());
                 
-                recipes.stream()
-                    .filter(r -> r.getId() == Long.parseLong(id[i]))
-                    .collect(Collectors.toList());
+                // recipes.stream()
+                //     .filter(r -> r.getId() == Long.parseLong(id[i]))
+                //     .collect(Collectors.toList());
 
                 for(Recipe r: recipes)
                     System.out.println(r.toString());
@@ -178,10 +180,12 @@ public class RecipeManagerController extends Controller {
         JsonNode nameNode = jsonNode.get("name");
         JsonNode stepsDescriptionNode = jsonNode.get("stepsDescription");
         JsonNode difficultyValueNode = jsonNode.get("difficultyValue");
+        JsonNode iqListNode = jsonNode.get("ingredientsQuantityList");
 
         Recipe recipe = Recipe.findById(id);
         
         if(recipe != null) {
+            // TODO: ver por que esta metiendo comillas de más
             if(nameNode != null)
                 recipe.setName(nameNode.toString());
 
@@ -193,8 +197,28 @@ public class RecipeManagerController extends Controller {
                 recipe.setDifficulty(difficulty);
             }
 
+            if(iqListNode != null) {
+                List<IngredientQuantity> iqList = new ArrayList<IngredientQuantity>();
+                for(JsonNode node: iqListNode) {
+                    IngredientQuantity iq = new IngredientQuantity();
+                    Ingredient i = Ingredient.findById(node.get("ingredientId").asLong());
+                    float quantity = node.get("quantity").floatValue();
+                    iq.setId(node.get("id").asLong());
+                    iq.setIngredient(i);
+                    iq.setQuantity(quantity);
+
+                    iqList.add(iq);
+                }
+
+                recipe.setIngredientsQuantityList(iqList);
+            }
+
             recipe.save();               
             JsonNode node = Json.toJson(recipe);
+
+            if(request.accepts("application/xml"))
+                return Results.ok(views.xml.recipe.render(recipe));
+
             return ok(node).as("application/json");
         } else {
             return notFound();
@@ -203,7 +227,6 @@ public class RecipeManagerController extends Controller {
 
     public Result deleteRecipe(Long id) {
         Recipe recipe = Recipe.findById(id);
-        // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(recipe != null) {
             recipe.delete();
             return Results.status(204);
@@ -211,6 +234,4 @@ public class RecipeManagerController extends Controller {
             return notFound();
         }
     }
-
-    // TODO añadir actualizar
 }
