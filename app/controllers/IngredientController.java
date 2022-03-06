@@ -59,6 +59,8 @@ public class IngredientController extends Controller {
         }
     }
 
+    // TODO UPDATE INGREDIENT
+
     public Result deleteIngredient(Long id) {
         Ingredient ingredient = Ingredient.findById(id);
     

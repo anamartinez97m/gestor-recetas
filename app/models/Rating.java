@@ -20,9 +20,6 @@ public class Rating extends BaseModel {
      */
     private static final Finder<Long, Rating> finder = new Finder<Long, Rating>(Rating.class);
 
-    @Id
-    private Long id;
-
     @Required(message="rating-value-required")
     @Min(0)
     @Max(5)
@@ -41,14 +38,6 @@ public class Rating extends BaseModel {
     /**
      * Getters and Setters
      */
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Float getValue() {
         return value;
     }

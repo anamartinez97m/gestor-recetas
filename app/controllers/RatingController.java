@@ -80,14 +80,38 @@ public class RatingController extends Controller {
         }
     }
 
+    public Result updateRating(Http.Request request, Long id) {
+        JsonNode jsonNode = request.body().asJson();
+        JsonNode commentNode = jsonNode.get("comment");
+        JsonNode valueNode = jsonNode.get("value");
+
+        Rating rating = Rating.findById(id);
+        
+        if(rating != null) {
+            if(commentNode != null)
+                rating.setComment(commentNode.toString());
+
+            if(valueNode != null)
+                rating.setValue(valueNode.floatValue());
+
+            rating.save();               
+            JsonNode node = Json.toJson(rating);
+            return ok(node).as("application/json");
+        } else {
+            return notFound();
+        }
+    }
+
     public Result deleteRating(Float value) {
         Rating rating = Rating.findByValue(value);
     
         // TODO Devolver error en JSON o XML según te manden en el header Accept
         if(rating != null) {
             Recipe recipe = Recipe.findByRating(rating);
-            recipe.setRating(null);
-            recipe.save();
+            if(recipe != null) {
+                recipe.setRating(null);
+                recipe.save();
+            }
             rating.delete();
             return Results.status(204);
         } else {

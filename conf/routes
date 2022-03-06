@@ -4,6 +4,7 @@
 
 GET         /recipes            controllers.RecipeManagerController.getRecipes(request: Request)
 POST        /recipes            controllers.RecipeManagerController.createRecipe(request: Request)
+PATCH       /recipes/:id        controllers.RecipeManagerController.updateRecipe(request: Request, id: Long)
 DELETE      /recipes/:id        controllers.RecipeManagerController.deleteRecipe(id: Long)
 
 GET         /ingredients        controllers.IngredientController.getAllIngredients(request: Request)
@@ -12,6 +13,7 @@ DELETE      /ingredients/:id    controllers.IngredientController.deleteIngredien
 
 GET         /ratings            controllers.RatingController.getAllRatings(request: Request)
 POST        /ratings            controllers.RatingController.addRating(request: Request)
+PATCH       /ratings/:id        controllers.RatingController.updateRating(request: Request, id: Long)
 DELETE      /ratings/:value     controllers.RatingController.deleteRating(value: Float)
 
 GET         /difficulties       controllers.DifficultyController.getAllDifficulties(request: Request)

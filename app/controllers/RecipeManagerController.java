@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -98,8 +100,7 @@ public class RecipeManagerController extends Controller {
 
         JsonNode node = Json.toJson(recipe);
 
-        return created(node)
-                .as("application/json");
+        return created(node).as("application/json");
     }
 
     public Result getRecipes(Http.Request request) {
@@ -120,12 +121,19 @@ public class RecipeManagerController extends Controller {
             for(int i = 0; i < id.length; i++) {
                 //recipes = recipes.stream().filter(recipe -> recipe.getId() == Long.parseLong(id[i])).collect(Collectors.toList());
                 
+                recipes.stream()
+                    .filter(r -> r.getId() == Long.parseLong(id[i]))
+                    .collect(Collectors.toList());
+
+                for(Recipe r: recipes)
+                    System.out.println(r.toString());
+
                 // for(Recipe r: recipes) {
                 //     if(r.getId() == Long.parseLong(id[i])) 
                 //         recipesResult.add(r);
                 // }
 
-                recipes.add(Recipe.findById(Long.parseLong(id[i])));
+                // recipes.add(Recipe.findById(Long.parseLong(id[i])));
             }
         }
 
@@ -162,6 +170,34 @@ public class RecipeManagerController extends Controller {
             ObjectNode result = Json.newObject();
             result.put("error", "Unssupported format");
             return Results.status(406, result);
+        }
+    }
+
+    public Result updateRecipe(Http.Request request, Long id) {
+        JsonNode jsonNode = request.body().asJson();
+        JsonNode nameNode = jsonNode.get("name");
+        JsonNode stepsDescriptionNode = jsonNode.get("stepsDescription");
+        JsonNode difficultyValueNode = jsonNode.get("difficultyValue");
+
+        Recipe recipe = Recipe.findById(id);
+        
+        if(recipe != null) {
+            if(nameNode != null)
+                recipe.setName(nameNode.toString());
+
+            if(stepsDescriptionNode != null)
+                recipe.setStepsDescription(stepsDescriptionNode.toString());
+
+            if(difficultyValueNode != null) {
+                Difficulty difficulty = Difficulty.findByValue(difficultyValueNode.asInt());
+                recipe.setDifficulty(difficulty);
+            }
+
+            recipe.save();               
+            JsonNode node = Json.toJson(recipe);
+            return ok(node).as("application/json");
+        } else {
+            return notFound();
         }
     }
 
