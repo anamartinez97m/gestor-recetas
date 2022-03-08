@@ -185,9 +185,10 @@ public class RecipeManagerController extends Controller {
         Recipe recipe = Recipe.findById(id);
         
         if(recipe != null) {
+            System.out.println(nameNode);
             // TODO: ver por que esta metiendo comillas de más
             if(nameNode != null)
-                recipe.setName(nameNode.toString());
+                recipe.setName(nameNode.asText());
 
             if(stepsDescriptionNode != null)
                 recipe.setStepsDescription(stepsDescriptionNode.toString());
