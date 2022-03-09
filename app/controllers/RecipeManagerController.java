@@ -70,7 +70,7 @@ public class RecipeManagerController extends Controller {
             }
 
             iq.setIngredient(foundIngredient);
-            iq.setQuantity(iqNode.get("quantity").floatValue());
+            iq.setQuantity(iqNode.get("quantity").doubleValue());
 
             ingredientsQuantityList.add(iq);
             iq.save();
@@ -107,48 +107,20 @@ public class RecipeManagerController extends Controller {
 
     public Result getRecipes(Http.Request request) {
         Map<String, String[]> queryParamsMap = request.queryString();
-        String[] id = queryParamsMap.get("id");
-        String[] difficulty = queryParamsMap.get("difficulty");
-        String[] rating = queryParamsMap.get("rating");
+        String[] difficulties = queryParamsMap.get("difficulty");
+        String[] ratings = queryParamsMap.get("rating");
         String[] ingredients = queryParamsMap.get("ingredient");
         List<Recipe> recipes = new ArrayList<Recipe>();
-        // List<Recipe> recipesResult = new ArrayList<Recipe>();
 
-        if(id == null && difficulty == null && rating == null && ingredients == null)
+        if(difficulties == null && ratings == null && ingredients == null)
             recipes = Recipe.findAll();
 
-        // TODO: juntar los filtros
-
-        if(id != null) {
-            for(int i = 0; i < id.length; i++) {
-                //recipes = recipes.stream().filter(recipe -> recipe.getId() == Long.parseLong(id[i])).collect(Collectors.toList());
-                
-                // recipes.stream()
-                //     .filter(r -> r.getId() == Long.parseLong(id[i]))
-                //     .collect(Collectors.toList());
-
-                for(Recipe r: recipes)
-                    System.out.println(r.toString());
-
-                // for(Recipe r: recipes) {
-                //     if(r.getId() == Long.parseLong(id[i])) 
-                //         recipesResult.add(r);
-                // }
-
-                // recipes.add(Recipe.findById(Long.parseLong(id[i])));
-            }
+        if(difficulties != null) {
+            recipes.addAll(Recipe.findByDifficultyValues(difficulties));
         }
 
-        if(difficulty != null) {
-            for(int i = 0; i < difficulty.length; i++) {
-                recipes.addAll(Recipe.findByDifficultyValue(Integer.parseInt(difficulty[i])));
-            }
-        }
-
-        if(rating != null) {
-            for(int i = 0; i < rating.length; i++) {
-                recipes.add(Recipe.findByRatingValue(Float.parseFloat(rating[i])));
-            }
+        if(ratings != null) {
+            recipes.addAll(Recipe.findByRatingValues(ratings));
         }
 
         if(ingredients != null) {
@@ -185,8 +157,6 @@ public class RecipeManagerController extends Controller {
         Recipe recipe = Recipe.findById(id);
         
         if(recipe != null) {
-            System.out.println(nameNode);
-            // TODO: ver por que esta metiendo comillas de más
             if(nameNode != null)
                 recipe.setName(nameNode.asText());
 
@@ -203,7 +173,7 @@ public class RecipeManagerController extends Controller {
                 for(JsonNode node: iqListNode) {
                     IngredientQuantity iq = new IngredientQuantity();
                     Ingredient i = Ingredient.findById(node.get("ingredientId").asLong());
-                    float quantity = node.get("quantity").floatValue();
+                    Double quantity = node.get("quantity").doubleValue();
                     iq.setId(node.get("id").asLong());
                     iq.setIngredient(i);
                     iq.setQuantity(quantity);

@@ -15,7 +15,7 @@ DELETE      /ingredients/:id    controllers.IngredientController.deleteIngredien
 GET         /ratings            controllers.RatingController.getAllRatings(request: Request)
 POST        /ratings            controllers.RatingController.addRating(request: Request)
 PATCH       /ratings/:id        controllers.RatingController.updateRating(request: Request, id: Long)
-DELETE      /ratings/:value     controllers.RatingController.deleteRating(value: Float)
+DELETE      /ratings/:value     controllers.RatingController.deleteRating(value: Double)
 
 GET         /difficulties       controllers.DifficultyController.getAllDifficulties(request: Request)
 POST        /difficulties       controllers.DifficultyController.addDifficulty(request: Request)

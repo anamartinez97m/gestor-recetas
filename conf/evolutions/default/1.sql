@@ -25,7 +25,7 @@ create table ingredient (
 create table ingredient_quantity (
   id                            bigint auto_increment not null,
   ingredient_id                 bigint,
-  quantity                      float not null,
+  quantity                      double,
   when_created                  datetime(6) not null,
   when_modified                 datetime(6) not null,
   version                       bigint not null,
@@ -34,7 +34,7 @@ create table ingredient_quantity (
 
 create table rating (
   id                            bigint auto_increment not null,
-  value                         float,
+  value                         double,
   comment                       varchar(255),
   when_created                  datetime(6) not null,
   when_modified                 datetime(6) not null,

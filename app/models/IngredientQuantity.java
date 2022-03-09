@@ -24,7 +24,7 @@ public class IngredientQuantity extends BaseModel {
     @ManyToOne
     private Ingredient ingredient;
 
-    private float quantity;
+    private Double quantity;
 
     @ManyToMany(cascade = CascadeType.ALL, 
                 mappedBy = "ingredientsQuantityList", 
@@ -43,11 +43,11 @@ public class IngredientQuantity extends BaseModel {
         this.ingredient = ingredient;
     }
 
-    public float getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(float quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 

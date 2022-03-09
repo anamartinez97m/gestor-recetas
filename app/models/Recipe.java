@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.*;
@@ -120,16 +121,23 @@ public class Recipe extends BaseModel {
     public static Recipe findByRating(Rating rating) {
         return finder.query().where().eq("rating", rating).findOne();
     }
+    
+    public static List<Recipe> findByRatingValues(String[] values) {
+        List<String> list = Arrays.asList(values);
+        List<Double> valueList = new ArrayList<Double>();
+        for(String elem : list) {
+            valueList.add(Double.parseDouble(elem));
+        }
 
-    public static Recipe findByRatingValue(Float value) {
-        return finder.query().where().eq("rating.value", value).findOne();
+        return finder.query().where().in("rating.value", valueList).findList();
     }
 
     public static List<Recipe> findByIngredientQuantity(IngredientQuantity iq) {
         return finder.query().where().eq("ingredientsQuantityList.id", iq.getId()).findList();
     }
 
-    public static List<Recipe> findByDifficultyValue(Integer value) {
-        return finder.query().where().eq("difficulty.id", value).findList();
+    public static List<Recipe> findByDifficultyValues(String[] values) {
+        List<String> list = Arrays.asList(values);
+        return finder.query().where().in("difficulty.value", list).findList();
     }
 }

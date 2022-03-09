@@ -23,7 +23,7 @@ public class Rating extends BaseModel {
     @Required(message="rating-value-required")
     @Min(0)
     @Max(5)
-    private Float value;
+    private Double value;
 
     private String comment;
 
@@ -38,11 +38,11 @@ public class Rating extends BaseModel {
     /**
      * Getters and Setters
      */
-    public Float getValue() {
+    public Double getValue() {
         return value;
     }
 
-    public void setValue(Float value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
@@ -91,7 +91,7 @@ public class Rating extends BaseModel {
         return finder.byId(id);
     }
 
-    public static Rating findByValue(Float value) {
+    public static Rating findByValue(Double value) {
         return finder.query().where().eq("value", value).findOne();
     }
 

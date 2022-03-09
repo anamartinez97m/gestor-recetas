@@ -93,7 +93,7 @@ public class RatingController extends Controller {
                 rating.setComment(commentNode.toString());
 
             if(valueNode != null)
-                rating.setValue(valueNode.floatValue());
+                rating.setValue(valueNode.doubleValue());
 
             rating.save();               
             JsonNode node = Json.toJson(rating);
@@ -106,7 +106,7 @@ public class RatingController extends Controller {
         }
     }
 
-    public Result deleteRating(Float value) {
+    public Result deleteRating(Double value) {
         Rating rating = Rating.findByValue(value);
     
         if(rating != null) {
