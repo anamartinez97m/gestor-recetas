@@ -114,27 +114,8 @@ public class RecipeManagerController extends Controller {
 
         if(difficulties == null && ratings == null && ingredients == null)
             recipes = Recipe.findAll();
-
-        if(difficulties != null) {
-            recipes.addAll(Recipe.findByDifficultyValues(difficulties));
-        }
-
-        if(ratings != null) {
-            recipes.addAll(Recipe.findByRatingValues(ratings));
-        }
-
-        if(ingredients != null) {
-            for(int i = 0; i < ingredients.length; i++) {
-                List<IngredientQuantity> iqListFound = new ArrayList<IngredientQuantity>();
-                List<Ingredient> ingredientsFound = Ingredient.findByName(ingredients[i]);
-                
-                for(Ingredient ing: ingredientsFound)
-                    iqListFound.addAll(IngredientQuantity.findByIngredient(ing));
-
-                for(IngredientQuantity iq: iqListFound) 
-                    recipes.addAll(Recipe.findByIngredientQuantity(iq));
-            }
-        }
+        else
+            recipes = Recipe.findByDifficultyAndRatingValuesAndIngredients(difficulties, ratings, ingredients);
 
         if(request.accepts("application/xml")) {
             return Results.ok(views.xml.recipes.render(recipes));

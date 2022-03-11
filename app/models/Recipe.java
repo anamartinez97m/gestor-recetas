@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import io.ebean.ExpressionList;
 import io.ebean.Finder;
 import play.data.validation.Constraints.Required;
 
@@ -118,6 +119,11 @@ public class Recipe extends BaseModel {
         return finder.query().where().eq("name", name).findList();
     }
 
+    public static List<Recipe> findByDifficultyValues(String[] values) {
+        List<String> list = Arrays.asList(values);
+        return finder.query().where().in("difficulty.value", list).findList();
+    }
+
     public static Recipe findByRating(Rating rating) {
         return finder.query().where().eq("rating", rating).findOne();
     }
@@ -132,12 +138,50 @@ public class Recipe extends BaseModel {
         return finder.query().where().in("rating.value", valueList).findList();
     }
 
+    public static List<Recipe> findByDifficultyAndRatingValuesAndIngredients(
+        String[] difficulties, String[] ratings, String[] ingredients) {
+        List<String> difficultiesList = new ArrayList<String>();
+        List<Double> ratingsList = new ArrayList<Double>();
+        ExpressionList<Recipe> composedFinder = finder.query().where();
+
+        if(difficulties != null) {
+            difficultiesList = Arrays.asList(difficulties);
+            composedFinder.in("difficulty.value", difficultiesList);
+        }
+
+        if(ratings != null) {
+            List<String> list = Arrays.asList(ratings);
+            for(String elem : list) {
+                ratingsList.add(Double.parseDouble(elem));
+            }
+            composedFinder.and().in("rating.value", ratingsList);
+        }
+
+        if(ingredients != null) {
+            List<Long> recipeIds = new ArrayList<Long>();
+            for(int i = 0; i < ingredients.length; i++) {
+                List<IngredientQuantity> iqListFound = new ArrayList<IngredientQuantity>();
+                List<Ingredient> ingredientsFound = Ingredient.findByName(ingredients[i]);
+                
+                for(Ingredient ing: ingredientsFound)
+                    iqListFound.addAll(IngredientQuantity.findByIngredient(ing));
+                
+                for(IngredientQuantity iq: iqListFound) 
+                recipeIds.addAll(Recipe.findRecipeIdsByIngredientQuantity(iq));
+
+                composedFinder.and().in("id", recipeIds);
+                
+            }
+        }
+        
+        return composedFinder.findList();
+    }
+
     public static List<Recipe> findByIngredientQuantity(IngredientQuantity iq) {
         return finder.query().where().eq("ingredientsQuantityList.id", iq.getId()).findList();
     }
 
-    public static List<Recipe> findByDifficultyValues(String[] values) {
-        List<String> list = Arrays.asList(values);
-        return finder.query().where().in("difficulty.value", list).findList();
+    public static List<Long> findRecipeIdsByIngredientQuantity(IngredientQuantity iq) {
+        return finder.query().where().eq("ingredientsQuantityList.id", iq.getId()).findIds();
     }
 }
