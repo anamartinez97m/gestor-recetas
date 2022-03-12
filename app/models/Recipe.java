@@ -24,7 +24,7 @@ public class Recipe extends BaseModel {
     private String stepsDescription;
 
     @OneToOne(cascade=CascadeType.ALL)
-    private Rating rating;
+    private Rating rating; // It is understood that one recipe only will have ONE rating
 
     @ManyToOne
     private Difficulty difficulty;
