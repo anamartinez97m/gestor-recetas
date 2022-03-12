@@ -1,6 +1,6 @@
 # Recipes Manager with Play! Framework
 
-It allows to create, update, get and delete recipes with its ingredients, its difficulty and one rating.
+It allows to create, update, get and delete recipes with its ingredients, its difficulty and ratings.
 
 
 ## Build and run the project locally
